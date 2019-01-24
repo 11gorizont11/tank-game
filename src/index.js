@@ -1,12 +1,18 @@
 import * as PIXI from 'pixi.js';
+import {Tank} from './game';
 
 const tankImageSrc = require('./assets/tank.png');
 
-var app = new PIXI.Application(window.innerWidth, window.innerHeight, {backgroundColor : 0x123456});
+const sceneSize = {
+  width: 20,
+  height: 20
+} 
+
+const app = new PIXI.Application(sceneSize.width * 40, sceneSize.height * 40, {backgroundColor : 0x123456});
 document.body.appendChild(app.view);
 
 // create a new Sprite from an image path
-var tank = PIXI.Sprite.fromImage(tankImageSrc);
+const tank = PIXI.Sprite.fromImage(tankImageSrc);
 
 // center the sprite's anchor point
 tank.anchor.set(0.5);
@@ -26,3 +32,8 @@ app.stage.addChild(tank);
 //     // creates frame-independent transformation
 //     tank.rotation += 0.1 * delta;
 // });
+
+
+const myTank = new Tank('green', 30, 100);
+myTank.setCoordinate({x: 3, y:3})
+console.log('​myTank', myTank);
