@@ -1,28 +1,64 @@
 import * as PIXI from 'pixi.js';
+import {Tank} from './game';
 
 const tankImageSrc = require('./assets/tank.png');
+const ammoImageSrc = require('./assets/carrot.png');
 
-var app = new PIXI.Application(window.innerWidth, window.innerHeight, {backgroundColor : 0x123456});
+const sceneSize = {
+  width: 20,
+  height: 20
+} 
+
+// Creation app, adding view to dom
+const app = new PIXI.Application(sceneSize.width * 40, sceneSize.height * 40, {backgroundColor : 0x123456});
+const {stage} = app;
 document.body.appendChild(app.view);
 
 // create a new Sprite from an image path
-var tank = PIXI.Sprite.fromImage(tankImageSrc);
+const tankFixture = PIXI.Sprite.fromImage(tankImageSrc);
+const ammoTexture = PIXI.Sprite.fromImage(ammoImageSrc);
 
+const bullets = [];
+
+// set tank size
+tankFixture.height = 68;
+tankFixture.width = 50;
 // center the sprite's anchor point
-tank.anchor.set(0.5);
+tankFixture.anchor.set(0.5);
 
 // move the sprite to the center of the screen
-tank.height = 68;
-tank.width = 50;
-tank.x = app.screen.width / 2;
-tank.y = app.screen.height / 2;
+tankFixture.x = app.screen.width / 2;
+tankFixture.y = app.screen.height / 2;
 
-app.stage.addChild(tank);
+// add tank to stage
+stage.addChild(tankFixture);
+stage.interactive = true;
 
-// Listen for animate update
-// app.ticker.add(function(delta) {
-//     // just for fun, let's rotate mr rabbit a little
-//     // delta is 1 if running at 100% performance
-//     // creates frame-independent transformation
-//     tank.rotation += 0.1 * delta;
-// });
+
+function shoot(rotation, startPosition) {
+  const {x,y} = startPosition;
+
+  ammoTexture.position.x = x;
+  ammoTexture.position.y = y;
+  ammoTexture.rotation = rotation;
+  
+  stage.addChild(ammoTexture);
+  bullets.push(ammoTexture);
+}
+
+// function animate() {
+//   requestAnimationFrame(animate);
+// }
+
+// add listeners to stage;
+stage.on("mousedown", (event) => {
+	console.log('​event', event)
+  
+  // shoot(tankFixture.rotation, {
+  //   x: tankFixture.position.x+Math.cos(tankFixture.rotation)*20,
+  //   y: tankFixture.position.y+Math.sin(tankFixture.rotation)*20
+  // });
+})
+
+const myTank = new Tank('green', 30, 100);
+myTank.setCoordinate({x: 3, y:3})
