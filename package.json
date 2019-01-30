@@ -4,7 +4,8 @@
   "description": "Small 2d tank game",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --inline --hot --open",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --open",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Alex Olexuk",
